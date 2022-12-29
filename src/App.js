@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+// import React, { useState } from "react";
+// import { AddUser } from "./Components/Users/AddUser";
+// import UserList from "./Components/Users/UserList";
+
+// function App() {
+//   const [usersList, setUserList] = useState([]);
+//   const addUserHandler = (uName, uAge) => {
+//     setUserList((prev) => {
+//       return [
+//         ...prev,
+//         { name: uName, age: uAge, id: Math.random().toString() },
+//       ];
+//     });
+//   };
+//   return (
+//     <React.Fragment>
+//       <AddUser onAddUser={addUserHandler} />
+//       <UserList users={usersList} />
+//     </React.Fragment>
+//   );
+// }
+
+// export default App;
+
+import React, { useState, Fragment } from "react";
+
+import AddUser from "./Components/Users/AddUser";
+import UsersList from "./Components/Users/UserList";
 
 function App() {
+  const [usersList, setUsersList] = useState([]);
+
+  const addUserHandler = (uName, uAge) => {
+    setUsersList((prevUsersList) => {
+      return [
+        ...prevUsersList,
+        { name: uName, age: uAge, id: Math.random().toString() },
+      ];
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <AddUser onAddUser={addUserHandler} />
+      <UsersList users={usersList} />
+    </Fragment>
   );
 }
 
