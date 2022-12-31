@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import Card from "../Ui/Card";
 import Button from "../Ui/Button";
@@ -7,13 +7,22 @@ import Wrapper from "../Helpers/Wrapper";
 import classes from "./AddUser.module.css";
 
 const AddUser = (props) => {
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
+  const [enteredCollege, setEnteredCollege] = useState("");
   const [error, setError] = useState();
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    // console.log(nameInputRef.current.value);
+
+    if (
+      enteredUsername.trim().length === 0 ||
+      enteredAge.trim().length === 0 ||
+      enteredCollege.trim().length === 0
+    ) {
       setError({
         title: "Invalid input",
         message: "Please enter a valid name and age (non-empty values).",
@@ -27,9 +36,11 @@ const AddUser = (props) => {
       });
       return;
     }
-    props.onAddUser(enteredUsername, enteredAge);
+
+    props.onAddUser(enteredUsername, enteredAge, enteredCollege);
     setEnteredUsername("");
     setEnteredAge("");
+    setEnteredCollege("");
   };
 
   const usernameChangeHandler = (event) => {
@@ -39,7 +50,9 @@ const AddUser = (props) => {
   const ageChangeHandler = (event) => {
     setEnteredAge(event.target.value);
   };
-
+  const collegeChangeHandler = (e) => {
+    setEnteredCollege(e.target.value);
+  };
   const errorHandler = () => {
     setError(null);
   };
@@ -61,6 +74,7 @@ const AddUser = (props) => {
             type="text"
             value={enteredUsername}
             onChange={usernameChangeHandler}
+            ref={nameInputRef}
           />
           <label htmlFor="age">Age (Years)</label>
           <input
@@ -68,6 +82,14 @@ const AddUser = (props) => {
             type="number"
             value={enteredAge}
             onChange={ageChangeHandler}
+            ref={ageInputRef}
+          />
+          <label htmlFor="college">College Name</label>
+          <input
+            id="college"
+            type="text"
+            onChange={collegeChangeHandler}
+            value={enteredCollege}
           />
           <Button type="submit">Add User</Button>
         </form>
